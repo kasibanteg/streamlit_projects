@@ -6,6 +6,8 @@ from python_files.hide_trade_marks import *
 from python_files.html_files import *
 
 
+
+
 #Hide all Streamlit menus and trade marks
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
@@ -107,3 +109,31 @@ st.markdown(footer, unsafe_allow_html=True)
 
 if __name__ == '__main__':
 	main()
+
+#st.set_page_config(page_title="Montreal-Elections")
+def set_page_title(title):
+    st.sidebar.markdown(unsafe_allow_html=True, body=f"""
+        <iframe height=0 srcdoc="<script>
+            const title = window.parent.document.querySelector('title') \
+                
+            const oldObserver = window.parent.titleObserver
+            if (oldObserver) {{
+                oldObserver.disconnect()
+            }} \
+
+            const newObserver = new MutationObserver(function(mutations) {{
+                const target = mutations[0].target
+                if (target.text !== '{title}') {{
+                    target.text = '{title}'
+                }}
+            }}) \
+
+            newObserver.observe(title, {{ childList: true }})
+            window.parent.titleObserver = newObserver \
+
+            title.text = '{title}'
+        </script>" />
+    """)
+
+
+set_page_title("Montreal-Elections")
